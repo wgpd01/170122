@@ -1,0 +1,199 @@
+PhoneGap Build ºô§}:
+https://build.phonegap.com/
+
+
+Intel XDK ©xºô:
+https://software.intel.com/en-us/intel-xdk
+
+
+
+
+--------------------------------------------------------------------------------
+A simple online fake REST API server
+https://github.com/typicode/jsonplaceholder#how-to
+
+
+    $("#btnTest").click(function () {
+        $.ajax({
+            type: "get",
+            url: "http://jsonplaceholder.typicode.com/posts/3",
+            dataType: "json",
+            success: function (data) {
+                $("#info").text(JSON.stringify(data));
+            }
+        });
+        // $("#info").text("OK");
+    })
+
+
+
+
+--------------------------------------------------------------------------------
+<script>
+        document.addEventListener(
+            "deviceready", 
+            function () {
+                $("#info").empty();
+                $("#info").append("<li>" + device.cordova + "</li>");
+                $("#info").append("<li>" + device.model + "</li>");
+                $("#info").append("<li>" + device.platform + "</li>");
+                $("#info").append("<li>" + device.uuid + "</li>");
+                $("#info").append("<li>" + device.version + "</li>");
+                $("#info").append("<li>" + device.isVirtual + "</li>");
+                $("#info").append("<li>" + device.serial + "</li>");
+                $("#info").listview("refresh");
+            }, 
+            false
+        );
+    </script>
+
+
+--------------------------------------------------------------------------------
+    window.addEventListener(
+        "batterystatus",
+        function (info) {
+            $("#debug")
+                .append("Batter: " + info.level + "<br>")
+                .append("IsPlug: " + info.isPlugged + "<hr>");
+        },
+        false
+    );
+
+
+
+
+--------------------------------------------------------------------------------
+Plugin: Geolocation
+Reference: 
+https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-geolocation/index.html
+
+
+UI:
+
+<input type="button" id="btnTest" value="Test" />
+<br>
+<div id="debug"></div>
+
+
+<script>
+
+document.addEventListener(
+    "deviceready", 
+    function () {
+
+        $("#btnTest").click(function () {
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var report = 
+                        'Latitude: '          + position.coords.latitude          + '<br>' +
+                        'Longitude: '         + position.coords.longitude         + '<br>' +
+                        'Altitude: '          + position.coords.altitude          + '<br>' +
+                        'Accuracy: '          + position.coords.accuracy          + '<br>' +
+                        'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '<br>' +
+                        'Heading: '           + position.coords.heading           + '<br>' +
+                        'Speed: '             + position.coords.speed             + '<br>' +
+                        'Timestamp: '         + position.timestamp                + '<br>';
+                    $("#debug").html(report);
+                }, 
+                function (e) { alert("error!") }
+            );
+            
+        })
+        
+    }, // end of deviceready
+    false
+);
+
+</script>
+
+
+
+
+--------------------------------------------------------------------------------
+Plugin: Geolocation (part two)
+
+
+<script>
+
+document.addEventListener(
+    "deviceready", 
+    function () {
+        
+        var watchID = navigator.geolocation.watchPosition(
+            function(position) {
+                var report = 
+                    'Latitude: ' + position.coords.latitude + '<br>' +
+                    'Longitude: ' + position.coords.longitude;
+                $("#debug").html(report);
+            }, 
+            function (e) {  }, 
+            { timeout: 3000 }
+        );
+
+        $("#btnTest").click(function () {
+            
+            navigator.geolocation.clearWatch(watchID);
+            
+        })
+        
+    }, // end of deviceready
+    false
+);
+
+</script>
+
+
+
+
+--------------------------------------------------------------------------------
+Plugin: Camera, File
+
+UI:
+
+
+<div class="ui-grid-a">
+    <div class="ui-block-a"><input type="button" id="btnURL" value="URL" /></div>
+    <div class="ui-block-b"><input type="button" id="btnURI" value="URI" /></div>
+</div>			
+<image id="img" src="images/test.jpg" style="width: 100%"></image>
+
+
+<script>
+
+document.addEventListener(
+    "deviceready", 
+    function () {
+        
+        btnURL.addEventListener("click", function () {
+            var options = {
+                    quality: 50, 
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+            };
+            navigator.camera.getPicture(function (imageData) {
+                img.src = "data:image/jpeg;base64," + imageData;
+            }, function () {}, options);
+        })
+
+        btnURI.addEventListener("click", function () {
+            var options = {
+                    quality: 50, 
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.SAVEDPHOTOALBUM
+            };
+            navigator.camera.getPicture(function (imageData) {
+                console.log(imageData);
+                img.src = imageData;
+            }, function () {}, options);
+        })
+
+    }, // end of deviceready
+    false
+);
+
+</script>
+
+
+
+
