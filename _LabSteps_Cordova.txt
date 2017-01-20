@@ -1,4 +1,4 @@
-﻿Lab: 以 Intel XDK 實作 Cordova 手機應用程式
+Lab: 以 Intel XDK 實作 Cordova 手機應用程式
 
 
 
@@ -104,7 +104,7 @@
 
 	<input type="button" id="btnTest" value="Test" />
 	<br>
-	<div id="googleMap" style="width: 100%; height: 200px; border: 1px solid gray;"></div>
+	<div id="googleMap" style="width: 100%; height: 300px; border: 1px solid gray;"></div>
 	<div id="debug"></div>
 
 
@@ -201,6 +201,8 @@ document.addEventListener(
                             googleMap,
                             mapProp);
 
+  
+                    
                     
                 }, 
                 function (e) { alert("error!") }
@@ -213,6 +215,7 @@ document.addEventListener(
 );
 
 </script>
+    
     
 
 6.3	組合鍵 Ctrl + S 儲存檔案
@@ -248,7 +251,7 @@ document.addEventListener(
 
                     // 加上圖標
                     var marker = new google.maps.Marker({
-                           position: new google.maps.LatLng(25.047755664726715,121.51703953742981)
+                           position: currentPosition
                            });
 
                     marker.setMap(map);     
